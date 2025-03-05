@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import "./App.css";
+import Watch from "./components/Watch/Watch";
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const watches = [
+  //   { id: 1, name: "APPle watch", price: 100 },
+  //   { id: 2, name: "Samsung watch", price: 200 },
+  //   { id: 3, name: "Mi watch", price: 300 },
+  // ];
+
+  // const watches = [
+  //   { id: 1, name: "Rolex Submariner", price: 10000 },
+  //   { id: 2, name: "Omega Seamaster", price: 7500 },
+  //   { id: 3, name: "Tag Heuer Carrera", price: 5000 },
+  //   { id: 4, name: "Seiko Prospex", price: 1500 },
+  //   { id: 5, name: "Casio G-Shock", price: 300 },
+  // ];
+
+  const [watches, setWatches] = useState([]);
+
+  useEffect(() => {
+    fetch("watches.json")
+      .then((response) => response.json())
+      .then((data) => setWatches(data));
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
       <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+
+      {watches.map((watch) => {
+        return <Watch key={watch.id} watch={watch} />;
+      })}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
